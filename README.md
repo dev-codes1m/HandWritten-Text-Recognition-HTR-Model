@@ -1,4 +1,4 @@
-# **PreprocessingHTR**
+# **Model 1:PreprocessingHTR**
 
 This pre-processing system takes an image of a full, handwritten page and returns a class containing pertinent information about the page (much more information on this is available under the section **Usage**). Particularly useful are the images of individual words, since these images can be fed to Handwritten Text Recognition (HTR) systems.
 
@@ -339,7 +339,7 @@ Here are a few words, the left/top-most being image **(1)**, the right/bottom-mo
 
 
 
-# Handwritten Text Recognition with TensorFlow
+# Model 2:Handwritten Text Recognition with TensorFlow
 
 * **Update 2021/2: recognize text on line level (multiple words)**
 * **Update 2021/1: more robust model, faster dataloader, word beam search decoder also available for Windows**
