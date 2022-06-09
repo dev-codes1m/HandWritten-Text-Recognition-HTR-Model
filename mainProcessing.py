@@ -5,6 +5,8 @@ import argparse
 import sys
 import pageBordering
 import subprocess
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 from autocorrect import spell
 import lineRemoval
 import circleRemoval
@@ -48,8 +50,11 @@ def save_intermediate_img(config, img, name, plot=False):
     if config['inter']:
         path = config['inter_path'] + '/' + str(config['inter_saved']) + name + ".png"
 
-
-
+        # if not plot:
+        #     cv2.imwrite(path, img_resize(img, scale=config['inter_scale']))
+        # else:
+        #     plt.savefig(path)
+        #     plt.figure(config['inter_saved'])
         
         config['inter_saved'] += 1
 
@@ -104,15 +109,15 @@ class ProcessedPage:
         
         # Convert to grayscale
         gray = cv2.cvtColor(cleaned, cv2.COLOR_BGR2GRAY)
-        # self.config['save_inter_func'](self.config, gray, "gray")
+        self.config['save_inter_func'](self.config, gray, "gray")
 
         # Blur the gray-scale image
         blurred = cv2.medianBlur(gray, 5)
-        # self.config['save_inter_func'](self.config, blurred, "blurred")
+        self.config['save_inter_func'](self.config, blurred, "blurred")
 
         # Perform canny edge detection
         canny = get_canny(blurred)
-        # self.config['save_inter_func'](self.config, canny, "canny")
+        self.config['save_inter_func'](self.config, canny, "canny")
         
         return cleaned, canny
 
@@ -123,17 +128,17 @@ class ProcessedPage:
         error, bordered = pageBordering.page_border(self.img.copy())
         if error:
             raise Exception("The image provided could not be bordered.")
-        # self.config['save_inter_func'](self.config, bordered, "bordered")
+        self.config['save_inter_func'](self.config, bordered, "bordered")
 
         # Removes page holes
         holes_removed = circleRemoval.page_hole_removal(bordered)
-        # self.config['save_inter_func'](self.config, holes_removed, "holes_removed")
+        self.config['save_inter_func'](self.config, holes_removed, "holes_removed")
 
         # Remove lines on lined paper (repeating for multiple iterations gives better results)
         lines_removed = holes_removed
         for i in range(3):
             lines_removed, gray = lineRemoval.lines_removal(lines_removed)
-        # self.config['save_inter_func'](self.config, lines_removed, "lines_removed")
+        self.config['save_inter_func'](self.config, lines_removed, "lines_removed")
 
         return lines_removed
 
@@ -170,6 +175,7 @@ class ProcessedPage:
                         subprocess.call("python main.py --img_file C:/Users/devan/Downloads/PreprocessingHTR-main/word{}_{}-{}.jpg".format(i, j,k-k), shell=True)
 
                         subprocess.TimeoutExpired
+                        os.remove("C:/Users/devan/Downloads/PreprocessingHTR-main/word{}_{}-{}.jpg".format(i, j,k-k))
 def preprocess(image_path, words_path, intermediate_path, scale=1):
     """
     Preprocess an image and return the word images.

@@ -133,12 +133,12 @@ def infer(model: Model, fn_img: Path) -> None:
 
     batch = Batch([img], None, 1)
     recognized, probability = model.infer_batch(batch, True)
-    # text = TextBlob(str(recognized[0]))
-    # correct = text.correct()
-    print(f'Recognized: "{recognized[0]}"')
+    text = TextBlob(str(recognized[0]))
+    correct = text.correct()
+    print(f'Recognized: "{correct}"')
 
     with open('C:/Users/devan/Downloads/PreprocessingHTR-main/PreprocessingHTR-main/make1.txt', 'a') as f:
-        f.write(recognized[0] + ' ')
+        f.write(str(correct) + ' ')
 
     print(f'Probability: {probability[0]}')
 

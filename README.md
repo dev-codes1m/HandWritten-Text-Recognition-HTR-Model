@@ -1,3 +1,13 @@
+# **To Run The Model** #
+
+1:Image Size Should in 4:3 Ratio By Good Camera
+
+2:Use Cmd 
+
+```
+> python mainProcessing.py test.jpg --words words_folder --intermediate intermediate_folder
+```
+
 # **Model 1:PreprocessingHTR**
 
 This pre-processing system takes an image of a full, handwritten page and returns a class containing pertinent information about the page (much more information on this is available under the section **Usage**). Particularly useful are the images of individual words, since these images can be fed to Handwritten Text Recognition (HTR) systems.
